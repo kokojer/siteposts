@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head.ejs') %>
+
+<body>
+    <%- include('./partials/nav.ejs') %>
+    <form id="registration-form" method="post" action="/sign-up">
+        <div class="registration-content">
+            <label>
+                <div class="label-text">NickName</div>
+                <input type="text" name="nickname" value="" required/>
+            </label>
+            <label>
+                <div class="label-text">Login</div>
+                <input type="text" name="username" value="" required/>
+            </label>
+            <label>
+                <div class="label-text">Password</div>
+                <input type="password" name="password" value="" required/>
+            </label>
+        </div>
+        <div class="registration-button">
+            <button type="submit">Submit</button>
+        </div>
+        <% if (errorValidationMessange) { %>
+                    <span style="text-align:center;color:red;"><%= errorValidationMessange %></span>
+        <% } %>
+    </form>
+</body>
+
+</html>

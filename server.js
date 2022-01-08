@@ -1,18 +1,25 @@
 const express = require('express');
-const morgan = require('morgan');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const postRoutes = require('./routes/post-routes');
 const postApiRoutes = require('./routes/api-post-routes');
 const contactRoutes = require('./routes/contact-routes');
+const registrationRoutes = require("./routes/registration-routes");
 const createPath = require('./helpers/create-path');
+const userObj = require("./helpers/userObj");
+const cookieParser = require("cookie-parser");
+const checkAuth = require("./middleware/checkAuth");
 
 const app = express();
 
 app.set('view engine', 'ejs');
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
 
 const PORT = 3000;
-const db = 'mongodb+srv://Yauhen:Pass321@cluster0.islwq.mongodb.net/node-blog?retryWrites=true&w=majority';
+const db =
+  "mongodb+srv://kokojer:gor222@cluster0.pdmse.mongodb.net/auth?retryWrites=true&w=majority";
 
 mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -25,19 +32,19 @@ app.listen(PORT, (error) => {
 
 app.use(express.urlencoded({ extended: false }));
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
-
 app.use(express.static('styles'));
+app.use(express.static("images"));
 
 app.use(methodOverride('_method'));
 
-app.get('/', (req, res) => {
+app.get('/', cookieParser('secret key'),checkAuth(), (req, res) => {
   const title = 'Home';
-  res.render(createPath('index'), { title });
+  res.render(createPath("index"), { ...userObj(req, title) });
 });
 
 app.use(postRoutes);
 app.use(contactRoutes);
+app.use(registrationRoutes);
 app.use(postApiRoutes);
 
 app.use((req, res) => {
