@@ -1,259 +1,355 @@
 body {
-  padding-top: 80px;
-  min-height: calc(100vh - 90px);
-  font-family: "Montserrat", sans-serif;
-  font-size: 20px;
-  background: linear-gradient(to bottom, #00d2ff, #928dab);
-  color: #fff;
+	padding-top: 80px;
+	min-height: calc(100vh - 90px);
+	font-family: "Montserrat", sans-serif;
+	font-size: 20px;
+	background: linear-gradient(to bottom, #00d2ff, #928dab);
+	color: #fff;
 }
 
 h1 {
-  text-transform: uppercase;
+	text-transform: uppercase;
 }
 
 nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  min-height: 60px;
-  display: flex;
-  justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.7);
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	min-height: 60px;
+	display: flex;
+	justify-content: space-between;
+	background-color: rgba(0, 0, 0, 0.7);
 }
 
 nav ul {
-  margin: 0;
-  display: flex;
+	margin: 0;
+	display: flex;
 }
 
 nav a {
-  min-height: 60px;
-  display: block;
-  padding: 10px 20px;
-  line-height: 60px;
+	min-height: 60px;
+	display: block;
+	padding: 10px 20px;
+	line-height: 60px;
 }
 
 li {
-  list-style: none;
+	list-style: none;
 }
 
 ul {
-  padding: 0;
+	padding: 0;
 }
 
 a {
-  text-decoration: none;
-  color: #fff;
+	text-decoration: none;
+	color: #fff;
 }
 
 article {
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 10px 20px;
-  border-radius: 3px;
-  margin-bottom: 10px;
-  position: relative;
+	background-color: rgba(0, 0, 0, 0.4);
+	padding: 10px 20px;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	position: relative;
 }
 
 .info {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .post .info {
-  justify-content: flex-start;
-  gap: 50px;
+	justify-content: flex-start;
+	gap: 50px;
 }
 
 h2 a {
-  color: aqua;
+	color: aqua;
 }
 
 #post-form {
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 10px 20px;
-  border-radius: 3px;
-  display: flex;
-  flex-direction: column;
+	background-color: rgba(0, 0, 0, 0.4);
+	padding: 10px 20px;
+	border-radius: 3px;
+	display: flex;
+	flex-direction: column;
 }
 
 #post-form div {
-  margin-bottom: 20px;
-  display: flex;
+	margin-bottom: 20px;
+	display: flex;
 }
 
 #post-form div label {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
 }
 
 .form-info {
-  justify-content: space-between;
-  gap: 20px;
+	justify-content: space-between;
+	gap: 20px;
 }
 
 input,
 textarea {
-  min-height: 30px;
-  border: 1px solid #000;
-  background-color: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  font-size: 18px;
-  padding: 3px 5px;
-  outline: none;
+	min-height: 30px;
+	border: 1px solid #000;
+	background-color: rgba(0, 0, 0, 0.4);
+	color: #fff;
+	font-size: 18px;
+	padding: 3px 5px;
+	outline: none;
 }
 
 textarea {
-  resize: none;
-  min-height: 150px;
+	resize: none;
+	min-height: 150px;
 }
 
 .form-button {
-  display: flex;
-  justify-content: flex-end;
+	display: flex;
+	justify-content: flex-end;
 }
 
 .form-button input {
-  text-transform: uppercase;
-  padding: 10px 15px;
-  cursor: pointer;
+	text-transform: uppercase;
+	padding: 10px 15px;
+	cursor: pointer;
 }
 
 .form-button input:hover {
-  background-color: rgba(0, 0, 0, 0.6);
+	background-color: rgba(0, 0, 0, 0.6);
 }
 
 .home,
 .error {
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  font-family: "Montserrat", sans-serif;
-  font-size: 20px;
-  background: linear-gradient(to bottom, #00d2ff, #928dab);
-  color: #fff;
-  padding-top: 0;
+	display: flex;
+	height: 100vh;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	font-family: "Montserrat", sans-serif;
+	font-size: 20px;
+	background: linear-gradient(to bottom, #00d2ff, #928dab);
+	color: #fff;
+	padding-top: 0;
 }
 
 .error h1 {
-  margin-top: 0;
+	margin-top: 0;
 }
 
 .contacts li {
-  list-style-type: circle;
-  padding-left: 20px;
-  list-style-position: inside;
+	list-style-type: circle;
+	padding-left: 20px;
+	list-style-position: inside;
 }
 
 .error-code {
-  text-transform: uppercase;
-  font-size: 160px;
-  margin-bottom: 20px;
+	text-transform: uppercase;
+	font-size: 160px;
+	margin-bottom: 20px;
 }
 
 .btn-edit,
 .btn-delete {
-  position: absolute;
-  top: 10px;
-  text-transform: uppercase;
-  padding: 10px 15px;
-  cursor: pointer;
-  border: 1px solid #000;
-  background-color: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  width: 48px;
-  border-radius: 3px;
-  font-size: 16px;
-  box-sizing: border-box;
+	position: absolute;
+	top: 10px;
+	text-transform: uppercase;
+	padding: 10px 15px;
+	cursor: pointer;
+	border: 1px solid #000;
+	background-color: rgba(0, 0, 0, 0.4);
+	color: #fff;
+	width: 48px;
+	border-radius: 3px;
+	font-size: 16px;
+	box-sizing: border-box;
 }
 
 .btn-edit,
 .btn-delete:hover {
-  background-color: rgba(0, 0, 0, 0.6);
+	background-color: rgba(0, 0, 0, 0.6);
 }
 
 .btn-edit {
-  right: 65px;
+	right: 65px;
 }
 
 .btn-delete {
-  right: 10px;
+	right: 10px;
 }
 
 .identification {
-  display: flex;
+	display: flex;
 }
 .sign:first-child {
-  margin-right: 10px;
+	margin-right: 10px;
 }
 
 .sign a {
-  font-family: "Montserrat", sans-serif;
-  font-size: 20px;
+	font-family: "Montserrat", sans-serif;
+	font-size: 20px;
 }
 
-#registration-form{
-  max-width: 500px;
-  padding: 15px;
-  margin: 0 auto;
-  background-color: rgb(16, 38, 90);
+#registration-form {
+	max-width: 500px;
+	padding: 15px;
+	margin: 0 auto;
+	background-color: rgb(16, 38, 90);
 }
 
-.registration-content{
-  display: flex;
-  flex-direction: column;
+.registration-content {
+	display: flex;
+	flex-direction: column;
 }
 
-.registration-content label{
-  max-width: 500px;
-  
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.registration-content label {
+	max-width: 500px;
+
+	margin-bottom: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
-.registration-button{
-  display: flex;
-  justify-content: center;
-  width: 100%;
+.registration-button {
+	display: flex;
+	justify-content: center;
+	width: 100%;
 }
 
-.registration-button button{
-  background-color: rgb(100, 194, 100);
-  width: 100%;
-  padding: 10px;
-  cursor: pointer;
-  font-family: "Montserrat", sans-serif;
-  font-size: 20px;
-  border: none;
+.registration-button button {
+	background-color: rgb(100, 194, 100);
+	width: 100%;
+	padding: 10px;
+	cursor: pointer;
+	font-family: "Montserrat", sans-serif;
+	font-size: 20px;
+	border: none;
 }
 
-.registration-button button:hover{
-  background-color: rgb(39, 90, 39);
-  
+.registration-button button:hover {
+	background-color: rgb(39, 90, 39);
 }
 
-#registration-form input{
-  width: 350px;
+#registration-form input {
+	width: 350px;
 }
 
-.user img{
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
+.user img {
+	width: 60px;
+	height: 60px;
+	object-fit: cover;
 }
-.user{
-  display: flex;
-  align-items: center;
-  padding: 0;
-  margin-left: 20px;
-  line-height: 0;
+.user {
+	display: flex;
+	align-items: center;
+	padding: 0;
+	margin-left: 20px;
+	line-height: 0;
 }
 
-.user-name{
-  margin-left: 15px;
+.user-name {
+	margin-left: 15px;
+}
+
+.user-container {
+	max-width: 700px;
+	margin: 0 auto;
+	padding: 25px;
+	background-color: rgb(34, 18, 18);
+	border-radius: 20px;
+	box-shadow: 0 0 30px 0px black;
+}
+.user-content {
+}
+.user-header {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 15px;
+}
+form .user-header {
+	justify-content: flex-start;
+}
+.user-nickname {
+	margin: 0;
+}
+form .user-nickname {
+	margin-right: 20px;
+}
+
+.user-info textarea {
+	width: 98%;
+	height: 100px;
+	white-space: pre-wrap;
+}
+
+.user-edit {
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+}
+.user-edit:hover {
+	text-decoration: underline;
+}
+.user-info {
+}
+.user-aboutme-title {
+}
+.user-img img {
+	height: 100%;
+	max-height: 300px;
+	margin-bottom: 15px;
+	border-radius: 20px;
+	box-shadow: 0 0 20px 0 black;
+	align-self: center;
+}
+.user-img {
+	border-radius: 20px;
+	display: flex;
+	flex-direction: column;
+}
+.user-logout {
+	font-size: 20px;
+	text-align: center;
+	color: red;
+	width: 100%;
+	display: block;
+}
+form .user-logout {
+	font-size: 20px;
+	background-color: rgb(24, 73, 18);
+	padding: 10px;
+	text-align: center;
+	color: white;
+	width: auto;
+	display: block;
+}
+input[type="file"] {
+	min-height: auto;
+}
+
+.user-img input[type="submit"] {
+	background-color: rgb(5, 117, 52);
+	color: white;
+	padding: 6px;
+	cursor: pointer;
+}
+
+.user-logout:hover {
+	text-decoration: underline;
+}
+.user-aboutme {
+	margin-bottom: 20px;
+	font-size: 18px;
+	line-height: 140%;
+}
+
+input.user-logout {
+	width: 100%;
+	cursor: pointer;
 }

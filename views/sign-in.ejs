@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('./partials/head.ejs') %>
-<body>
-  <%- include('./partials/nav.ejs') %>
-  <form id="registration-form" method="post" action="">
-    <div class="registration-content">
-      <label>
-          <div class="label-text">Login</div>
-        <input type="text" name="username" value="">
-      </label>
-      <label>
-          <div class="label-text">Password</div>
-        <input type="text" name="password" value="">
-      </label>
-    </div>
-    <div class="registration-button">
-      <button type="submit">Submit</button>
-    </div>
-  </form>
-</body>
+<%- include('./partials/head.ejs') %>
+
+	<body>
+		<%- include('./partials/nav.ejs') %>
+			<form id="registration-form" method="post" action="/sign-in">
+				<div class="registration-content">
+					<label>
+						<div class="label-text">Login</div>
+						<input type="text" name="username" value="">
+					</label>
+					<label>
+						<div class="label-text">Password</div>
+						<input type="password" name="password" value="">
+					</label>
+				</div>
+				<div class="registration-button">
+					<button type="submit">Submit</button>
+				</div>
+				<% if (errorValidationMessange) { %>
+					<span style="text-align:center;color:red;">
+						<%= errorValidationMessange %>
+					</span>
+					<% } %>
+			</form>
+	</body>
+
 </html>
