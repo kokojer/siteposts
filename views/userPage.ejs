@@ -2,34 +2,53 @@
 <html lang="en">
 <%- include('./partials/head.ejs') %>
 
-	<body>
-		<%- include('./partials/nav.ejs') %>
-			<section class="user-container">
-				<div class="user-content">
-					<div class="user-header">
-						<h2 class="user-nickname">
-							<%= profilenickname %>
-						</h2>
-						<% if (thisIsMe) { %>
-							<a href="/users/edit/<%= username %>" class="user-edit">Edit profile</a>
-							<% } %>
-					</div>
-					<div class="user-info">
-						<div class="user-img">
-							<img src="<%= profileuserImg %>" alt="">
-						</div>
-						<% if (profileaboutme?.trim()) { %>
-							<h3 class="user-aboutme-title">About me</h3>
-							<div class="user-aboutme">
-								<%= profileaboutme %>
-							</div>
-							<% } %>
-								<% if (thisIsMe) { %>
-									<a href="/logout" class="user-logout">Logout</a>
-									<% } %>
-					</div>
-				</div>
-			</section>
-	</body>
+<body>
+    <%- include('./partials/nav.ejs') %>
+    <section class="user-container">
+        <div class="user-content">
+            <div class="user-header">
+                <h2 class="user-nickname">
+                    <%= profilenickname %>
+                </h2>
+                <% if (thisIsMe) { %>
+                <a href="/users/edit/<%= username %>" class="user-edit">Edit profile</a>
+                <% } %>
+            </div>
+            <div class="user-info">
+                <div class="user-img">
+                    <img src="<%= profileuserImg %>" alt="">
+                </div>
+
+                <h3 class="user-aboutme-title">About me</h3>
+                <div class="user-aboutme">
+                    <div class="user-input">
+                        <div class="user-input__header">Age</div>
+                        <div class="user-input__value"><%= profileage %></div>
+                    </div>
+                    <div class="user-input">
+                        <div class="user-input__header">Country</div>
+                        <div class="user-input__value"><%= profilecountry %></div>
+                    </div>
+                    <div class="user-input">
+                        <div class="user-input__header">Sex</div>
+                        <div class="user-input__value"><%= profilesex %></div>
+                    </div>
+						  <div class="user-input">
+                        <div class="user-input__header">City</div>
+                        <div class="user-input__value"><%= profilecity %></div>
+                    </div>
+                    <div class="user-input">
+                        <div class="user-input__header">Profession</div>
+                        <div class="user-input__value"><%= profileprofession %></div>
+                    </div>
+                </div>
+
+                <% if (thisIsMe) { %>
+                <a href="/logout" class="user-logout">Logout</a>
+                <% } %>
+            </div>
+        </div>
+    </section>
+</body>
 
 </html>

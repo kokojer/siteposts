@@ -1,48 +1,64 @@
+//---подключение моделей данных--------
 const User = require("../models/User");
 const Role = require("../models/Role");
-const { validationResult } = require("express-validator");
+//---подключение валидации инпутов--------
+const {
+	validationResult
+} = require("express-validator");
 const createPath = require("../helpers/create-path");
 const path = require('path')
 const fs = require('fs')
+//---для защиты данных--------
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = 'lololo';
-const { nanoid } = require('nanoid')
-const multer = require('multer');
+//---объект в хедере--------
 const userObj = require('../helpers/userObj')
 let error = false;
-
+//--генерация токена----------
 const generateAccessToken = (id, roles) => {
 	const payload = {
 		id,
 		roles
 	}
-	return jwt.sign(payload, secret, { expiresIn: "24h" })
+	return jwt.sign(payload, secret, {
+		expiresIn: "24h"
+	})
 }
 
 const handleError = (res, error) => {
 	console.log(error);
-	res.render(createPath('error'), { title: 'Error' });
+	res.render(createPath('error'), {
+		title: 'Error'
+	});
 }
 
-
+//---функции обрабочики логина и регистрации
 //--------------------------------------
-const getSignIn = (req, res) => {
+const getSignIn = async (req, res) => {
 	const title = "Sign-In";
-	const errorValidationMessange = false;
-	res.render(createPath("sign-in"), { errorValidationMessange, ...userObj(req, title) });
+	const obj = await userObj(req, title);
+	return res.render(createPath("sign-in"), {
+		errorValidationMessange: false,
+		...obj
+	});
 };
 
 const postSignIn = async (req, res) => {
 	const title = "Sign-In";
+	const obj = await userObj(req, title);
 	try {
-		const { username, password } = req.body
-		const user = await User.findOne({ username })
+		const {
+			username,
+			password
+		} = req.body
+		const user = await User.findOne({
+			username
+		})
 		if (!user) {
 			return res.render(createPath("sign-in"), {
-				errorValidationMessange:
-					`Пользователь ${username} не найден`,
-				...userObj(req, title),
+				errorValidationMessange: `Пользователь ${username} не найден`,
+				...obj,
 			})
 		}
 		const nickname = user.nickname;
@@ -50,77 +66,84 @@ const postSignIn = async (req, res) => {
 		const validPassword = bcrypt.compareSync(password, user.password)
 		if (!validPassword) {
 			return res.render(createPath("sign-in"), {
-				errorValidationMessange:
-					`Введен не верный пароль`,
-				...userObj(req, title),
+				errorValidationMessange: `Введен не верный пароль`,
+				...obj,
 			})
 		}
 		const token = generateAccessToken(user._id, user.roles);
 
 		return (
 			res
-				.cookie("token", token, {
-					HttpOnly: true,
+			.cookie("token", token, {
+				HttpOnly: true,
 
-				})
-				.cookie("nickname", nickname, {
-					HttpOnly: true,
+			})
+			.cookie("nickname", nickname, {
+				HttpOnly: true,
 
-				})
-				.cookie("username", username, {
-					HttpOnly: true,
+			})
+			.cookie("username", username, {
+				HttpOnly: true,
 
-				})
-				.cookie("img", img, {
-					HttpOnly: true,
+			})
+			.cookie("img", img, {
+				HttpOnly: true,
 
-				})
-				.redirect("/")
+			})
+			.redirect("/")
 		);
 	} catch (e) {
 		console.log(e)
-		res.status(400).json({ message: 'Login error' })
+		res.status(400).json({
+			message: 'Login error'
+		})
 	}
 
-	res.render(createPath("sign-in"), { ...userObj(req, title) });
+
 };
 
-const getSignUp = (req, res) => {
+const getSignUp = async (req, res) => {
 	const title = 'Sign-Up'
-	const errorValidationMessange = false;
-	res.render(createPath('sign-up'), {
-		...userObj(req, title),
-		errorValidationMessange
+	const obj = await userObj(req, title);
+	return res.render(createPath('sign-up'), {
+		...obj,
+		errorValidationMessange: false
 	});
 };
 
 const postSignUp = async (req, res) => {
 	const title = "Sign-Up";
+	const obj = await userObj(req, title);
 	try {
 		const errors = validationResult(req);
-		console.log(errors);
 		if (!errors.isEmpty()) {
 			return res
 				.status(400)
 				.render(createPath("sign-up"), {
-					errorValidationMessange:
-						errors.errors[0].msg,
-					...userObj(req, title),
+					errorValidationMessange: errors.errors[0].msg,
+					...obj,
 				});
 		}
-		const { username, password, nickname } = req.body;
-		const candidate = await User.findOne({ username });
+		const {
+			username,
+			password,
+			nickname
+		} = req.body;
+		const candidate = await User.findOne({
+			username
+		});
 		if (candidate) {
 			return res
 				.status(400)
 				.render(createPath("sign-up"), {
-					errorValidationMessange:
-						"Пользователь с таким именем уже существует",
-					...userObj(req, title),
+					errorValidationMessange: "Пользователь с таким именем уже существует",
+					...obj,
 				});
 		}
 		const hashPassword = bcrypt.hashSync(password, 7);
-		const userRole = await Role.findOne({ value: "USER" });
+		const userRole = await Role.findOne({
+			value: "USER"
+		});
 		const user = new User({
 			nickname,
 			username,
@@ -132,34 +155,39 @@ const postSignUp = async (req, res) => {
 
 		return (
 			res
-				// .setHeader("Set-Cookie", `token=${token};username=${username};HttpOnly`)
-				.cookie("token", token, {
-					HttpOnly: true,
-					secure: true,
-				})
-				.cookie("nickname", nickname, {
-					HttpOnly: true,
-					secure: true,
-				})
-				.cookie("username", username, {
-					HttpOnly: true,
-					secure: true,
-				})
-				.redirect("/")
+			// .setHeader("Set-Cookie", `token=${token};username=${username};HttpOnly`)
+			.cookie("token", token, {
+				HttpOnly: true,
+				secure: true,
+			})
+			.cookie("nickname", nickname, {
+				HttpOnly: true,
+				secure: true,
+			})
+			.cookie("username", username, {
+				HttpOnly: true,
+				secure: true,
+			})
+			.redirect("/")
 		);
 	} catch (e) {
 		console.log(e);
-		res.status(400).json({ message: "Registration error" });
+		res.status(400).json({
+			message: "Registration error"
+		});
 	}
 
 };
 //--------------------------------------------------
 const getUser = async (req, res) => {
 	const title = req.params.username;
+	const obj = await userObj(req, title);
 	try {
 		const title = req.params.username;
 		let thisIsMe = false;
-		const user = await User.findOne({ username: title })
+		const user = await User.findOne({
+			username: title
+		})
 		if (!user) {
 			return res.render(createPath("error"), {
 				title
@@ -167,25 +195,35 @@ const getUser = async (req, res) => {
 		}
 
 		if (req.cookies.username === req.params.username) {
-			console.log(user.aboutme);
+
 			thisIsMe = true;
 			return res.render(createPath("userPage"), {
-				...userObj(req, title),
-				thisIsMe,
-				profileaboutme: user.aboutme,
-				profileusername: user.username,
-				profilenickname: user.nickname,
-				profileuserImg: user.img || "/anonymous.jpg",
-			});
+        ...obj,
+        thisIsMe,
+        profileaboutme: user.aboutme,
+        profileusername: user.username,
+        profilenickname: user.nickname,
+        profileuserImg: user.img || "/anonymous.jpg",
+        profileage: user.age || "Empty",
+        profilesex: user.sex || "Empty",
+        profileprofession: user.profession || "Empty",
+        profilecountry: user.country || "Empty",
+        profilecity: user.city || "Empty",
+      });
 		} else {
 			return res.render(createPath("userPage"), {
-				...userObj(req, title),
-				thisIsMe,
-				profileaboutme: user.aboutme,
-				profileusername: user.username,
-				profilenickname: user.nickname,
-				profileuserImg: user.img || "/anonymous.jpg",
-			});
+        ...obj,
+        thisIsMe,
+        profileaboutme: user.aboutme,
+        profileusername: user.username,
+        profilenickname: user.nickname,
+        profileuserImg: user.img || "/anonymous.jpg",
+        profileage: user.age || "Empty",
+        profilesex: user.sex || "Empty",
+        profileprofession: user.profession || "Empty",
+        profilecountry: user.country || "Empty",
+        profilecity: user.city || "Empty",
+      });
 		}
 	} catch {
 		return res.render(createPath("error"), {
@@ -197,10 +235,10 @@ const getLogout = async (req, res) => {
 	return (res.clearCookie('nickname').clearCookie('username').clearCookie('token').clearCookie('img').redirect(`/`))
 }
 const getEditUser = async (req, res) => {
+	const title = req.params.username;
+	const obj = await userObj(req, title);
 	try {
-		const title = req.params.username;
-		const decodedData = jwt.verify(req.cookies.token, secret)
-		const user = await User.findOne({ _id: decodedData.id })
+		const user = req.user;
 
 		if (!user) {
 
@@ -222,13 +260,18 @@ const getEditUser = async (req, res) => {
 
 
 		return res.render(createPath("userEditPage"), {
-			...userObj(req, title),
-			error,
-			profileaboutme: user.aboutme,
-			profileusername: user.username,
-			profilenickname: user.nickname,
-			profileuserImg: req.cookies.img || "/anonymous.jpg",
-		});
+      ...obj,
+      error,
+      profileaboutme: user.aboutme,
+      profileusername: user.username,
+      profilenickname: user.nickname,
+      profileuserImg: req.cookies.img || user.img || "/anonymous.jpg",
+      profileage: user.age,
+      profilesex: user.sex,
+      profileprofession: user.profession,
+      profilecountry: user.country,
+      profilecity: user.city,
+    });
 	} catch {
 		return res.render(createPath("error"), {
 			title
@@ -237,20 +280,25 @@ const getEditUser = async (req, res) => {
 };
 
 const addImg = async (req, res) => {
-	const title = req.params.username;
 
 	if (req.allowed === true) {
+		let title= ' '
 		error = false;
-		if (req.cookies.img) {
-			fs.unlink(`./images${req.cookies.img}`, function (err) {
-				if (err) return console.log(err);
-				console.log('file deleted successfully');
-			})
+		const obj = await userObj(req, title);
+		if(req.cookies.img){
+			if (obj.userImg !== req.cookies.img) {
+				
+				fs.unlink(`./images${req.cookies.img}`, function (err) {
+					if (err) return console.log(err);
+					console.log("file deleted successfully-repeat");
+				});
+      }
 		}
-
-		return res.cookie("img", `/${req.file.filename}`, {
-			HttpOnly: true,
-		}).redirect(`/users/edit/${req.cookies.username}`);
+      return res
+        .cookie("img", `/${req.file.filename}`, {
+          HttpOnly: true,
+        })
+        .redirect(`/users/edit/${req.cookies.username}`);
 	} else {
 		error = true;
 		return res.redirect(`/users/edit/${req.cookies.username}`);
@@ -260,35 +308,54 @@ const addImg = async (req, res) => {
 const postEditUser = async (req, res) => {
 	const title = req.params.username;
 	const decodedData = jwt.verify(req.cookies.token, secret)
-	const { nickname, aboutme } = req.body;
+	const {
+		nickname,
+		age,
+		sex,
+		profession,
+		city,
+		country
+	} = req.body;
+	console.log(sex);
 	const img = req.cookies.img || "";
 	const errors = validationResult(req);
-	console.log(aboutme);
+
+
 	if (!errors.isEmpty()) {
 		console.log('4');
 		return res.render(createPath("error"), {
 			title
 		});
 	}
-	User
-		.findByIdAndUpdate(decodedData.id, { nickname, aboutme, img })
-		.then((result) => {
-			console.log('42');
-			return res.cookie("nickname", `${nickname}`, {
-				HttpOnly: true,
-			}).redirect(`/users/${req.cookies.username}`)
-		})
-		.catch((error) => handleError(res, error));
 
-	// if (req.allowed === true) {
-	// 	error = false;
-	// 	return res.cookie("img", `/${req.file.filename}`, {
-	// 		HttpOnly: true,
-	// 	}).redirect(`/users/edit/${req.cookies.username}`);
-	// } else {
-	// 	error = true;
-	// 	return res.redirect(`/users/edit/${req.cookies.username}`);
-	// }
+
+	if (req.cookies.img) {
+		let userImg = await User.findOne({
+      _id: decodedData.id,
+    });
+		if (userImg.img !== req.cookies.img) {
+		fs.unlink(`./images${userImg.img}`, function (err) {
+      if (err) return console.log(err);
+      console.log("file deleted successfully");
+    });
+	}
+	}
+	User.findByIdAndUpdate(decodedData.id, {
+    nickname,
+    age,
+    sex,
+    profession,
+    city,
+    country,
+	 img
+  }).then((result) => {
+      return res
+        .cookie("nickname", `${nickname}`, {
+          HttpOnly: true,
+        })
+        .redirect(`/users/${req.cookies.username}`);
+    })
+    .catch((error) => handleError(res, error));
 };
 
 

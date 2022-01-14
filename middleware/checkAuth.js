@@ -1,10 +1,29 @@
+const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+const secret = 'lololo'
 
 module.exports = function () {
-  return function (req, res, next) {
+  return async function (req, res, next) {
     if (req.cookies.token) {
-      req.isAuth = true;
-    } else {
-      req.isAuth = false;
+       const decodedData = jwt.verify(req.cookies.token, secret);
+       const user = await User.findOne({
+         _id: decodedData.id,
+       });
+
+       if (!user) {
+         return res.render(createPath("error"), {
+           title,
+         });
+       }
+       if (user.username !== req.cookies.username) {
+         return res.render(createPath("error"), {
+           title,
+         });
+       }
+       req.isAuth = true;
+       req.user = user;
+    }else{
+       req.isAuth = false;
     }
     next();
   };

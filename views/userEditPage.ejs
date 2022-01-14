@@ -2,38 +2,62 @@
 <html lang="en">
 <%- include('./partials/head.ejs') %>
 
-	<body>
-		<%- include('./partials/nav.ejs') %>
-			<section class="user-container">
-				<form id="upload" action="/upload" method="POST" enctype="multipart/form-data"></form>
-				<form method="POST" action="/users/edit/<%= profileusername %>" class="user-content">
-					<div class="user-header">
-						<h2 class="user-nickname">
-							Nickname:
-						</h2>
-						<input type="text" name="nickname" value="<%= profilenickname %>" required>
-					</div>
-					<div class="user-info">
-						<div class="user-img">
-							<img src="<%= profileuserImg %>" alt="2">
-							<div class="upload-img">
-								<input type="file" name="img" form="upload">
-								<input type="submit" value="upload" form="upload">
-							</div>
-							<% if (error) { %>
-								<div style="color:red;margin-top: 5px;">Допустимый формат изображений: jpg, png, svg</div>
-								<% } %>
-						</div>
-						<h3 class="user-aboutme-title">About me:</h3>
-						<div class="user-aboutme">
-							<textarea name="aboutme">
-								<%= profileaboutme %>
-							</textarea>
-						</div>
-						<input type="submit" class="user-logout" value="Submit">
-					</div>
-				</form>
-			</section>
-	</body>
+<body>
+    <%- include('./partials/nav.ejs') %>
+    <section class="user-container">
+        <form id="upload" action="/upload" method="POST" enctype="multipart/form-data"></form>
+        <form method="POST" action="/users/edit/<%= profileusername %>" class="user-content">
+            <div class="user-header">
+                <h2 class="user-nickname">
+                    Nickname:
+                </h2>
+                <input type="text" name="nickname" value="<%= profilenickname %>" required>
+            </div>
+            <div class="user-info">
+                <div class="user-img">
+                    <img src="<%= profileuserImg %>" alt="2">
+                    <div class="upload-img">
+                        <input type="file" name="img" form="upload" formaction="/upload" formenctype="multipart/form-data" formmethod="POST">
+                        <input type="submit" value="upload" form="upload" formaction="/upload" formmethod="POST" formenctype="multipart/form-data">
+                    </div>
+                    <% if (error) { %>
+                    <div style="color:red;margin-top: 5px;">Допустимый формат изображений: jpg, png, svg</div>
+                    <% } %>
+                </div>
+                <h3 class="user-aboutme-title">About me</h3>
+                <div class="user-aboutme">
+                    <div class="user-input">
+                        <div class="user-input__header">Age</div>
+                        <input class="user-input__value" value="<%= profileage %>" type="number" name="age">
+                    </div>
+                    <div class="user-input">
+                        <div class="user-input__header">Country</div>
+                        <input class="user-input__value" value="<%= profilecountry %>" type="text" name="country">
+                    </div>
+						  <div class="user-input">
+                        <div class="user-input__header">Profession</div>
+                        <input class="user-input__value" value="<%= profileprofession %>" type="text" name="profession">
+                    </div>
+                    <div class="user-input">
+                        <div class="user-input__header">City</div>
+                        <input class="user-input__value" value="<%= profilecity %>" type="text" name="city">
+                    </div>
+						  <div class="user-input radio">
+							
+                        <label for="male">
+									Male
+									<input type="radio" name="sex" id="male" value="Male" <% if ( profilesex === 'Male') { %> Checked <% } %>>
+								</label>
+								<label for="female">
+									Female
+									<input type="radio" name="sex" id="female" value="Female" <% if ( profilesex === 'Female') { %> Checked <% } %>>
+								</label>
+                    </div>
+                </div>
+                <input type="submit" class="user-logout" value="Submit">
+            </div>
+        </form>
+    </section>
+</body>
 
 </html>
