@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('./partials/head.ejs') %>
-<body>
-  <%- include('./partials/nav.ejs') %>
-  <form id="post-form" method="post" action="/edit/<%= post.id %>?_method=PUT">
-    <div class="form-info">
-      <label>Post Title
-        <input type="text" name="title" value="<%= post.title %>">
-      </label>
-      <label>Author
-        <input type="text" name="author" value="<%= post.author %>">
-      </label>
-    </div>
-    <div class="form-text">
-      <label>Post Text
-        <textarea name="text"><%= post.text %></textarea>
-      </label>
-    </div>
-    <div class="form-button">
-      <input type="submit" value="Submit">
-    </div>
-  </form>
-</body>
+<%- include('./partials/head.ejs') %>
+
+	<body>
+		<%- include('./partials/nav.ejs') %>
+			<form id="post-form" method="post" action="/edit/<%= id %>?_method=PUT">
+				<div class="form-info">
+					<label>Post Title
+						<input type="text" name="title" value="<%= postTitle %>">
+					</label>
+				</div>
+				<div class="form-text">
+					<label>Post Text
+						<textarea name="text"><%= text %></textarea>
+					</label>
+				</div>
+				<div class="form-footer">
+					<div class="form-author">
+						<div class="form-author-img">
+							<img src="<%= userPostImg %>" alt="">
+						</div>
+						<div class="form-nickname">
+							<%= userNickname %>
+						</div>
+					</div>
+					<div class="form-button">
+						<input type="submit" value="Submit">
+					</div>
+				</div>
+			</form>
+	</body>
+
 </html>

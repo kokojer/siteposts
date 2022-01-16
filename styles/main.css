@@ -1,5 +1,3 @@
-
-
 body {
 	padding-top: 80px;
 	min-height: calc(100vh - 90px);
@@ -57,18 +55,34 @@ article {
 	position: relative;
 }
 
+article p {
+	/* display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical; */
+	overflow: hidden;
+	max-height: 70px;
+}
+article.post p {
+	max-height: none;
+}
+
 .info {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 }
 
 .post .info {
 	justify-content: flex-start;
-	gap: 50px;
+}
+.post .info > span {
+	margin-right: 50px;
 }
 
 h2 a {
 	color: aqua;
+	display: block;
+	padding-right: 40px;
 }
 
 #post-form {
@@ -79,9 +93,22 @@ h2 a {
 	flex-direction: column;
 }
 
-#post-form div {
+.form-text {
 	margin-bottom: 20px;
 	display: flex;
+}
+
+.form-text textarea {
+	margin-top: 10px;
+}
+
+.form-info {
+	margin-bottom: 20px;
+	display: flex;
+}
+
+.form-info input {
+	margin-top: 10px;
 }
 
 #post-form div label {
@@ -118,8 +145,10 @@ textarea {
 
 .form-button input {
 	text-transform: uppercase;
-	padding: 10px 15px;
+	padding: 5px 10px;
 	cursor: pointer;
+	line-height: 160%;
+	max-height: 50px;
 }
 
 .form-button input:hover {
@@ -264,17 +293,14 @@ textarea {
 	margin: 0 auto;
 	padding: 25px;
 	background-color: rgb(66, 100, 138);
-	
+
 	box-shadow: 0 0 30px 0px black;
 }
 .user-content {
 }
 .user-header {
-	
 	display: flex;
 	justify-content: space-between;
-	
-	
 }
 form .user-header {
 	justify-content: flex-start;
@@ -283,7 +309,6 @@ form .user-header {
 	margin: 0;
 }
 form .user-nickname {
-	
 	margin-right: 20px;
 }
 .user-nickname {
@@ -291,7 +316,6 @@ form .user-nickname {
 
 	text-shadow: 0 0 10px black;
 	border-radius: 5%;
-	
 }
 
 .user-info textarea {
@@ -315,7 +339,7 @@ form .user-nickname {
 	font-weight: bold;
 	font-size: 30px;
 	text-shadow: 0 0 10px black;
-	color:rgb(174, 255, 231);
+	color: rgb(174, 255, 231);
 	background-color: rgb(19, 40, 54);
 	text-align: center;
 	padding: 5px;
@@ -329,10 +353,8 @@ form .user-nickname {
 	align-self: center;
 
 	max-height: 300px;
-	
 }
 .user-img {
-	
 	display: flex;
 	flex-direction: column;
 }
@@ -343,7 +365,6 @@ form .user-nickname {
 	width: 100%;
 	display: block;
 	margin-top: 15px;
-	
 }
 form .user-logout {
 	font-size: 20px;
@@ -383,48 +404,37 @@ input.user-logout {
 	display: flex;
 	flex-wrap: wrap;
 	/* gap: 15px; */
-	
+
 	margin-left: -1rem;
-	margin-bottom:-1rem;
-	
+	margin-bottom: -1rem;
 }
 
 .user-input {
-flex-grow: 1;
-flex-shrink: 0;
-/* flex-basis: calc(50% - 25px); */
-border: 1px solid black;
-text-align: center;
-padding: 5px;
-margin-left:1rem;
-margin-bottom:1rem;
-width:calc(1/2*100% - 2rem);
-	
+	flex-grow: 1;
+	flex-shrink: 0;
+	/* flex-basis: calc(50% - 25px); */
+	border: 1px solid black;
+	text-align: center;
+	padding: 5px;
+	margin-left: 1rem;
+	margin-bottom: 1rem;
+	width: calc(1 / 2 * 100% - 2rem);
 }
-.user-input__value{
+.user-input__value {
 	font-size: 25px;
 	line-height: 120%;
 	color: rgb(255, 255, 255);
-	text-shadow: 1px 0 1px rgb(0, 0, 0),
-	0 1px 1px rgb(15, 14, 14),
-	-1px 0 1px rgb(14, 14, 14),
-	0 -1px 1px rgb(0, 0, 0);
-	
-	
-
+	text-shadow: 1px 0 1px rgb(0, 0, 0), 0 1px 1px rgb(15, 14, 14), -1px 0 1px rgb(14, 14, 14), 0 -1px 1px rgb(0, 0, 0);
 }
 form .user-input__value {
-	color: white
-
-
+	color: white;
 }
-.radio{
+.radio {
 	display: flex;
 	justify-content: space-evenly;
-	
 }
 
-.radio label{
+.radio label {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -436,11 +446,34 @@ form .user-input__value {
 	margin-left: 15px;
 	display: block;
 	width: 20px;
-	
 }
 .user-input__header {
 	text-shadow: 5px 5px 5px black;
 	margin-bottom: 5px;
-
 }
-.user-age {}
+.user-age {
+}
+
+.form-footer {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 15px;
+}
+.form-author {
+	display: flex;
+	align-items: center;
+}
+.form-author-img {
+	height: 50px;
+	width: 50px;
+}
+.form-author-img img {
+	width: 100%;
+	object-fit: cover;
+	height: 100%;
+}
+.form-nickname {
+	margin-left: 15px;
+}
+.form-button {
+}

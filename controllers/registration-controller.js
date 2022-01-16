@@ -8,13 +8,13 @@ const {
 const createPath = require("../helpers/create-path");
 const path = require('path')
 const fs = require('fs')
+const url = require('url');
 //---для защиты данных--------
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = 'lololo';
 //---объект в хедере--------
 const userObj = require('../helpers/userObj')
-let error = false;
 //--генерация токена----------
 const generateAccessToken = (id, roles) => {
 	const payload = {
@@ -22,7 +22,7 @@ const generateAccessToken = (id, roles) => {
 		roles
 	}
 	return jwt.sign(payload, secret, {
-		expiresIn: "24h"
+		expiresIn: "10d"
 	})
 }
 
@@ -74,23 +74,23 @@ const postSignIn = async (req, res) => {
 
 		return (
 			res
-			.cookie("token", token, {
-				HttpOnly: true,
+				.cookie("token", token, {
+					HttpOnly: true,
 
-			})
-			.cookie("nickname", nickname, {
-				HttpOnly: true,
+				})
+				.cookie("nickname", nickname, {
+					HttpOnly: true,
 
-			})
-			.cookie("username", username, {
-				HttpOnly: true,
+				})
+				.cookie("username", username, {
+					HttpOnly: true,
 
-			})
-			.cookie("img", img, {
-				HttpOnly: true,
+				})
+				.cookie("img", img, {
+					HttpOnly: true,
 
-			})
-			.redirect("/")
+				})
+				.redirect("/")
 		);
 	} catch (e) {
 		console.log(e)
@@ -155,20 +155,20 @@ const postSignUp = async (req, res) => {
 
 		return (
 			res
-			// .setHeader("Set-Cookie", `token=${token};username=${username};HttpOnly`)
-			.cookie("token", token, {
-				HttpOnly: true,
-				secure: true,
-			})
-			.cookie("nickname", nickname, {
-				HttpOnly: true,
-				secure: true,
-			})
-			.cookie("username", username, {
-				HttpOnly: true,
-				secure: true,
-			})
-			.redirect("/")
+				// .setHeader("Set-Cookie", `token=${token};username=${username};HttpOnly`)
+				.cookie("token", token, {
+					HttpOnly: true,
+					secure: true,
+				})
+				.cookie("nickname", nickname, {
+					HttpOnly: true,
+					secure: true,
+				})
+				.cookie("username", username, {
+					HttpOnly: true,
+					secure: true,
+				})
+				.redirect("/")
 		);
 	} catch (e) {
 		console.log(e);
@@ -198,32 +198,32 @@ const getUser = async (req, res) => {
 
 			thisIsMe = true;
 			return res.render(createPath("userPage"), {
-        ...obj,
-        thisIsMe,
-        profileaboutme: user.aboutme,
-        profileusername: user.username,
-        profilenickname: user.nickname,
-        profileuserImg: user.img || "/anonymous.jpg",
-        profileage: user.age || "Empty",
-        profilesex: user.sex || "Empty",
-        profileprofession: user.profession || "Empty",
-        profilecountry: user.country || "Empty",
-        profilecity: user.city || "Empty",
-      });
+				...obj,
+				thisIsMe,
+				profileaboutme: user.aboutme,
+				profileusername: user.username,
+				profilenickname: user.nickname,
+				profileuserImg: user.img || "/anonymous.jpg",
+				profileage: user.age || "Empty",
+				profilesex: user.sex || "Empty",
+				profileprofession: user.profession || "Empty",
+				profilecountry: user.country || "Empty",
+				profilecity: user.city || "Empty",
+			});
 		} else {
 			return res.render(createPath("userPage"), {
-        ...obj,
-        thisIsMe,
-        profileaboutme: user.aboutme,
-        profileusername: user.username,
-        profilenickname: user.nickname,
-        profileuserImg: user.img || "/anonymous.jpg",
-        profileage: user.age || "Empty",
-        profilesex: user.sex || "Empty",
-        profileprofession: user.profession || "Empty",
-        profilecountry: user.country || "Empty",
-        profilecity: user.city || "Empty",
-      });
+				...obj,
+				thisIsMe,
+				profileaboutme: user.aboutme,
+				profileusername: user.username,
+				profilenickname: user.nickname,
+				profileuserImg: user.img || "/anonymous.jpg",
+				profileage: user.age || "Empty",
+				profilesex: user.sex || "Empty",
+				profileprofession: user.profession || "Empty",
+				profilecountry: user.country || "Empty",
+				profilecity: user.city || "Empty",
+			});
 		}
 	} catch {
 		return res.render(createPath("error"), {
@@ -257,21 +257,20 @@ const getEditUser = async (req, res) => {
 				title
 			})
 		}
-
-
+		let valid = req.query.valid;
 		return res.render(createPath("userEditPage"), {
-      ...obj,
-      error,
-      profileaboutme: user.aboutme,
-      profileusername: user.username,
-      profilenickname: user.nickname,
-      profileuserImg: req.cookies.img || user.img || "/anonymous.jpg",
-      profileage: user.age,
-      profilesex: user.sex,
-      profileprofession: user.profession,
-      profilecountry: user.country,
-      profilecity: user.city,
-    });
+			...obj,
+			error: valid,
+			profileaboutme: user.aboutme,
+			profileusername: user.username,
+			profilenickname: user.nickname,
+			profileuserImg: req.cookies.img || user.img || "/anonymous.jpg",
+			profileage: user.age,
+			profilesex: user.sex,
+			profileprofession: user.profession,
+			profilecountry: user.country,
+			profilecity: user.city,
+		});
 	} catch {
 		return res.render(createPath("error"), {
 			title
@@ -280,82 +279,103 @@ const getEditUser = async (req, res) => {
 };
 
 const addImg = async (req, res) => {
+	try {
+		if (req.allowed === true) {
+			let title = ' '
+			const obj = await userObj(req, title);
+			if (req.cookies.img) {
+				if (obj.userImg !== req.cookies.img) {
 
-	if (req.allowed === true) {
-		let title= ' '
-		error = false;
-		const obj = await userObj(req, title);
-		if(req.cookies.img){
-			if (obj.userImg !== req.cookies.img) {
-				
-				fs.unlink(`./images${req.cookies.img}`, function (err) {
-					if (err) return console.log(err);
-					console.log("file deleted successfully-repeat");
-				});
-      }
+					fs.unlink(`./images${req.cookies.img}`, function (err) {
+						if (err) return console.log(err);
+						console.log("file deleted successfully-repeat");
+					});
+				}
+			}
+			return res
+				.cookie("img", `/${req.file.filename}`, {
+					HttpOnly: true,
+				})
+				.redirect(`/users/edit/${req.cookies.username}`);
+		} else {
+			return res.redirect(url.format({
+				pathname: `/users/edit/${req.cookies.username}`,
+				query: {
+					"valid": 'Допустимые форматы изображний: PNG, JPG, SVG'
+				}
+			}));
 		}
-      return res
-        .cookie("img", `/${req.file.filename}`, {
-          HttpOnly: true,
-        })
-        .redirect(`/users/edit/${req.cookies.username}`);
-	} else {
-		error = true;
-		return res.redirect(`/users/edit/${req.cookies.username}`);
+	} catch (err) {
+		return res.render(createPath("error"), {
+			title
+		})
 	}
+
 };
 
 const postEditUser = async (req, res) => {
 	const title = req.params.username;
-	const decodedData = jwt.verify(req.cookies.token, secret)
-	const {
-		nickname,
-		age,
-		sex,
-		profession,
-		city,
-		country
-	} = req.body;
-	console.log(sex);
-	const img = req.cookies.img || "";
-	const errors = validationResult(req);
+	try {
+		let decodedData
+		try {
+			decodedData = jwt.verify(req.cookies.token, secret);
+		} catch (err) {
+			return (res.clearCookie('nickname').clearCookie('username').clearCookie('token').clearCookie('img').redirect(`/`))
+		}
+		const {
+			nickname,
+			age,
+			sex,
+			profession,
+			city,
+			country
+		} = req.body;
+		const img = req.cookies.img || "";
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			let error = errors.errors[0].msg
+			return res.redirect(url.format({
+				pathname: `/users/edit/${req.cookies.username}`,
+				query: {
+					"valid": error
+				}
+			}))
+		}
 
 
-	if (!errors.isEmpty()) {
-		console.log('4');
+		if (req.cookies.img) {
+			let userImg = await User.findOne({
+				_id: decodedData.id,
+			});
+			if (userImg.img !== req.cookies.img) {
+				fs.unlink(`./images${userImg.img}`, function (err) {
+					if (err) return console.log(err);
+					console.log("file deleted successfully");
+				});
+			}
+		}
+		User.findByIdAndUpdate(decodedData.id, {
+			nickname,
+			age,
+			sex,
+			profession,
+			city,
+			country,
+			img
+		}).then((result) => {
+			return res
+				.cookie("nickname", `${nickname}`, {
+					HttpOnly: true,
+				})
+				.redirect(`/users/${req.cookies.username}`);
+		}).catch((error) => handleError(res, error));
+	} catch (error) {
 		return res.render(createPath("error"), {
 			title
-		});
+		})
 	}
 
-
-	if (req.cookies.img) {
-		let userImg = await User.findOne({
-      _id: decodedData.id,
-    });
-		if (userImg.img !== req.cookies.img) {
-		fs.unlink(`./images${userImg.img}`, function (err) {
-      if (err) return console.log(err);
-      console.log("file deleted successfully");
-    });
-	}
-	}
-	User.findByIdAndUpdate(decodedData.id, {
-    nickname,
-    age,
-    sex,
-    profession,
-    city,
-    country,
-	 img
-  }).then((result) => {
-      return res
-        .cookie("nickname", `${nickname}`, {
-          HttpOnly: true,
-        })
-        .redirect(`/users/${req.cookies.username}`);
-    })
-    .catch((error) => handleError(res, error));
 };
 
 
