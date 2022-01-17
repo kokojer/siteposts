@@ -20,6 +20,7 @@ nav {
 	display: flex;
 	justify-content: space-between;
 	background-color: rgba(0, 0, 0, 0.7);
+	align-items: center;
 }
 
 nav ul {
@@ -60,7 +61,7 @@ article p {
 	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical; */
 	overflow: hidden;
-	max-height: 70px;
+	max-height: 75px;
 }
 article.post p {
 	max-height: none;
@@ -82,7 +83,6 @@ article.post p {
 h2 a {
 	color: aqua;
 	display: block;
-	padding-right: 40px;
 }
 
 #post-form {
@@ -476,4 +476,199 @@ form .user-input__value {
 	margin-left: 15px;
 }
 .form-button {
+}
+
+
+body {
+	height: 100%;
+	background-color: gray;
+}
+
+body.no-scroll {
+	overflow: hidden;
+}
+
+.wrapper {
+	min-height: 100%;
+}
+
+.menu__icon {
+		display: none;
+		margin-right: 15px;
+	}
+
+.pdr-40{
+	padding-right: 45px;
+}
+ul article h2 {
+	max-height:140px;
+	overflow: hidden;
+	word-wrap: break-word;
+	text-overflow: ellipsis;
+}
+
+@media (max-width: 767px) {
+	.user{
+		margin-left: 0px;
+	}
+	.menu__icon {
+		z-index: 5;
+		display: block;
+		position: relative;
+		width: 30px;
+		height: 18px;
+		cursor: pointer;
+	}
+
+	.menu__icon::before,
+	.menu__icon::after,
+	.menu__icon span {
+		left: 0;
+		position: absolute;
+		height: 10%;
+		width: 100%;
+		transition: 0.3s;
+		background-color: #fff;
+	}
+
+	.menu__icon::before,
+	.menu__icon::after {
+		content: "";
+	}
+
+	.menu__icon::before {
+		top: 0;
+	}
+
+	.menu__icon::after {
+		bottom: 0;
+	}
+
+	.menu__icon span {
+		top: 50%;
+		transform: scale(1) translate(0px, -50%);
+	}
+
+	.menu__icon._active span {
+		transform: scale(0);
+	}
+
+	.menu__icon._active::before {
+		top: 50%;
+		transform: rotate(-45deg) translate(0, -50%);
+	}
+
+	.menu__icon._active::after {
+		bottom: 50%;
+		transform: rotate(45deg) translate(0, 50%);
+	}
+
+	.menu__body {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.9);
+		padding: 100px 0px 30px 0px;
+		transition: 0.3s;
+		overflow: auto;
+		left: -120%;
+		flex-direction: column;
+		z-index: 5;
+	}
+	.menu__body li{
+		text-align: center;
+	}
+
+	.menu__body._active {
+		left: 0;
+	}
+	.home p{
+		text-align: center;
+	}
+	.posts-title{
+		margin-top: 0;
+		font-size: 30px;
+	}
+	ul article{
+		padding: 10px 15px;
+	}
+	ul article h2{
+		font-size: 18px;
+		margin-top: 0;
+		max-height:130px;
+	}
+	ul article p {
+		font-size: 15px;
+		margin-top: 0;
+	}
+	.form-author-img{
+		width: 30px;
+		height: 30px;
+	}
+	.form-nickname{
+		margin-left: 10px;
+		font-size: 14px;
+	}
+	.info span{
+		font-size: 16px;
+	}
+	.post h1{
+		font-size: 20px;
+	}
+	.post p {
+		font-size: 15px;
+	}
+	.user-container{
+		padding: 15px;
+	}
+	.user-nickname{
+		font-size: 20px;
+	}
+	.user-edit{
+		font-size: 13px;
+	}
+	.user-aboutme-title{
+		margin-top: 5px;
+		font-size: 17px;
+	}
+	.user-input{
+		width: 100%;
+		box-sizing: border-box;
+		flex-shrink: 1;
+	}
+	.user-input__header {
+		font-size: 16px;
+	}
+	.user-input__value {
+		font-size: 25px;
+	}
+	.edit-page .user-header {
+		flex-direction: column;
+	}
+	.edit-page .user-input {
+		width: 100%;
+		box-sizing: border-box;
+		flex-shrink: 1;
+	}
+	.edit-page .user-input__value {
+		width: 100%;
+		box-sizing: border-box;
+	}
+	input[type="file"]{
+		width: 100%;
+		box-sizing: border-box;
+	}
+	.upload-img input[type="submit"] {
+		width: 100%;
+		margin-bottom: 5px;
+	}
+	.registration-content label input{
+		margin-left: 15px;
+		width: 100%;
+	}
+	#registration-form input{
+		width: 100%;
+	}
 }

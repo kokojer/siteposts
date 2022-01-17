@@ -4,7 +4,7 @@
 
 	<body>
 		<%- include('./partials/nav.ejs') %>
-			<section class="user-container">
+			<section class="user-container edit-page">
 				<form id="upload" action="/upload" method="POST" enctype="multipart/form-data"></form>
 				<form method="POST" action="/users/edit/<%= profileusername %>" class="user-content">
 					<div class="user-header">

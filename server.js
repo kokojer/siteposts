@@ -4,12 +4,14 @@ const express = require('express'),
       postRoutes = require("./routes/post-routes"),
       contactRoutes = require("./routes/contact-routes"),
       registrationRoutes = require("./routes/registration-routes");
+      lkRoutes = require("./routes/lk-routes");
       //-для пут запросов--- 
       methodOverride = require('method-override'),
       createPath = require('./helpers/create-path'),
       userObj = require("./helpers/userObj"),
       cookieParser = require("cookie-parser"),
       checkAuth = require("./middleware/checkAuth");
+      require('dotenv').config()
 
 const app = express();
 //---установка глобальных переменных-------------
@@ -18,17 +20,17 @@ mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 
-const PORT = 3000;
-const db =
-  "mongodb+srv://kokojer:gor222@cluster0.pdmse.mongodb.net/auth?retryWrites=true&w=majority";
+
 //---подключение бд---------------
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((res) => console.log('Connected to DB'))
   .catch((error) => console.log(error));
 //---запуск сервака------------
-app.listen(PORT, (error) => {
-  error ? console.log(error) : console.log(`listening port ${PORT}`);
+app.listen(process.env.PORT, (error) => {
+  error
+    ? console.log(error)
+    : console.log(`listening port ${process.env.PORT}`);
 });
 //--установка миддл варов-------------------
 app.use(express.urlencoded({ extended: false }));
@@ -51,6 +53,7 @@ app.get('/', async (req, res) => {
 app.use(postRoutes);
 app.use(contactRoutes);
 app.use(registrationRoutes);
+app.use(lkRoutes);
 
 //---если такой страницы не существует----------------
 app.use((req, res) => {

@@ -4,13 +4,13 @@
 
 	<body>
 		<%- include('./partials/nav.ejs') %>
-			<h1>Posts:</h1>
+			<h1 class="posts-title">Posts:</h1>
 			<ul>
 				<% if (fullPostsInfo.length) { %>
 					<% fullPostsInfo.forEach(({ id, title, createdAt, text, username, userImg, userNickname, itsMe })=> { %>
 						<article>
 							<h2>
-								<a href="/posts/<%= id %>">
+								<a href="/posts/<%= id %>" <% if (itsMe) { %>class="pdr-40"<% } %>>
 									<%= title %>
 								</a>
 							</h2>
