@@ -17,3 +17,4 @@
 - [Multer - Загрузка файлов на сервер](https://www.npmjs.com/package/multerk)
 - [Шаблонизатор EJS](https://www.npmjs.com/package/ejs)
 - [JWT ТОКЕН - Используется для передачи данных для аутентификации в клиент-серверных приложениях.](https://www.npmjs.com/package/jsonwebtoken)
+- [Easy Yandex S3 - Для облегченного управления Yandex Object Storage](https://www.npmjs.com/package/easy-yandex-s3)

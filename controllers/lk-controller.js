@@ -12,6 +12,32 @@ const jwt = require("jsonwebtoken");
 const secret = "lololo";
 //---объект в хедере--------
 const userObj = require("../helpers/userObj");
+var EasyYandexS3 = require("easy-yandex-s3");
+
+var s3 = new EasyYandexS3({
+  auth: {
+    accessKeyId: "5bKSjXQ9M1DKv8w60lb-",
+    secretAccessKey: "Xpd6PX2qow3egavSds__0O0TWwhm7xUYPeDqz8u1",
+  },
+  Bucket: "kokojer", // например, "my-storage",
+  debug: true, // Дебаг в консоли, потом можете удалить в релизе
+});
+const uploadImg = async (filename) => {
+
+  var upload = await s3.Upload(
+    {
+      path: path.resolve(__dirname, `../images/${filename}`),
+    },
+    "/images/"
+  );
+    return upload.Location;
+}
+const removeImg = async (filename) => {
+  return await s3.Remove(`images/${filename}`);
+}
+
+
+
 
 const handleError = (res, error) => {
   console.log(error);
@@ -132,10 +158,12 @@ const addImg = async (req, res) => {
             if (err) return console.log(err);
             console.log("file deleted successfully-repeat");
           });
+          await removeImg(req.cookies.img.match(/(?<=images\/).+$/i)?.[0])
         }
       }
+      let up = await uploadImg(req.file.filename) || '/anonymous.jpg'
       return res
-        .cookie("img", `/${req.file.filename}`, {
+        .cookie("img", `${up}`, {
           HttpOnly: true,
         })
         .redirect(`/users/edit/${req.cookies.username}`);
@@ -150,6 +178,7 @@ const addImg = async (req, res) => {
       );
     }
   } catch (err) {
+    let title = " ";
     return res.render(createPath("error"), {
       title,
     });
@@ -190,11 +219,12 @@ const postEditUser = async (req, res) => {
       let userImg = await User.findOne({
         _id: decodedData.id,
       });
-      if (userImg.img !== req.cookies.img) {
+      if ((userImg.img !== req.cookies.img) && userImg.img) {
         fs.unlink(`./images${userImg.img}`, function (err) {
           if (err) return console.log(err);
           console.log("file deleted successfully");
         });
+        await removeImg(userImg.img.match(/(?<=images\/).+$/i)?.[0]);
       }
     }
     User.findByIdAndUpdate(decodedData.id, {
@@ -215,6 +245,7 @@ const postEditUser = async (req, res) => {
       })
       .catch((error) => handleError(res, error));
   } catch (error) {
+    console.log(error);
     return res.render(createPath("error"), {
       title,
     });

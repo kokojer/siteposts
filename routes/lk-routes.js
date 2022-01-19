@@ -15,6 +15,7 @@ const path = require("path");
 //---управление мултером---------------
 const multer = require("multer");
 
+
 function fileFilter(req, file, cb) {
   let ext = path.extname(file.originalname).toLowerCase();
   if (ext === ".png" || ext === ".svg" || ext === ".jpg" || ext === ".jpeg") {
