@@ -12,15 +12,16 @@ const jwt = require("jsonwebtoken");
 const secret = "lololo";
 //---объект в хедере--------
 const userObj = require("../helpers/userObj");
+
 var EasyYandexS3 = require("easy-yandex-s3");
+require("dotenv").config();
 
 var s3 = new EasyYandexS3({
   auth: {
-    accessKeyId: "5bKSjXQ9M1DKv8w60lb-",
-    secretAccessKey: "Xpd6PX2qow3egavSds__0O0TWwhm7xUYPeDqz8u1",
+    accessKeyId: process.env.accessKeyId,
+    secretAccessKey: process.env.secretAccessKey,
   },
-  Bucket: "kokojer", // например, "my-storage",
-  debug: true, // Дебаг в консоли, потом можете удалить в релизе
+  Bucket: process.env.Bucket 
 });
 const uploadImg = async (filename) => {
 
@@ -154,10 +155,6 @@ const addImg = async (req, res) => {
       const obj = await userObj(req, title);
       if (req.cookies.img) {
         if (obj.userImg !== req.cookies.img) {
-          fs.unlink(`./images${req.cookies.img}`, function (err) {
-            if (err) return console.log(err);
-            console.log("file deleted successfully-repeat");
-          });
           await removeImg(req.cookies.img.match(/(?<=images\/).+$/i)?.[0])
         }
       }
@@ -220,10 +217,6 @@ const postEditUser = async (req, res) => {
         _id: decodedData.id,
       });
       if ((userImg.img !== req.cookies.img) && userImg.img) {
-        fs.unlink(`./images${userImg.img}`, function (err) {
-          if (err) return console.log(err);
-          console.log("file deleted successfully");
-        });
         await removeImg(userImg.img.match(/(?<=images\/).+$/i)?.[0]);
       }
     }
