@@ -70,7 +70,7 @@ const getUser = async (req, res) => {
         profileaboutme: user.aboutme,
         profileusername: user.username,
         profilenickname: user.nickname,
-        profileuserImg: user.img || "/anonymous.jpg",
+        profileuserImg: user.img || "https://kokojer.storage.yandexcloud.net/images/anonymous.jpg",
         profileage: user.age || "Empty",
         profilesex: user.sex || "Empty",
         profileprofession: user.profession || "Empty",
@@ -84,7 +84,7 @@ const getUser = async (req, res) => {
         profileaboutme: user.aboutme,
         profileusername: user.username,
         profilenickname: user.nickname,
-        profileuserImg: user.img || "/anonymous.jpg",
+        profileuserImg: user.img || "https://kokojer.storage.yandexcloud.net/images/anonymous.jpg",
         profileage: user.age || "Empty",
         profilesex: user.sex || "Empty",
         profileprofession: user.profession || "Empty",
@@ -134,7 +134,7 @@ const getEditUser = async (req, res) => {
       profileaboutme: user.aboutme,
       profileusername: user.username,
       profilenickname: user.nickname,
-      profileuserImg: req.cookies.img || user.img || "/anonymous.jpg",
+      profileuserImg: req.cookies.img || user.img || "https://kokojer.storage.yandexcloud.net/images/anonymous.jpg",
       profileage: user.age,
       profilesex: user.sex,
       profileprofession: user.profession,
@@ -158,7 +158,11 @@ const addImg = async (req, res) => {
           await removeImg(req.cookies.img.match(/(?<=images\/).+$/i)?.[0])
         }
       }
-      let up = await uploadImg(req.file.filename) || '/anonymous.jpg'
+      let up = await uploadImg(req.file.filename) || 'https://kokojer.storage.yandexcloud.net/images/anonymous.jpg'
+      if (up === 'https://kokojer.storage.yandexcloud.net/images/anonymous.jpg') {
+        console.log('412');
+        return res.redirect(`/users/edit/${req.cookies.username}`);
+      }
       return res
         .cookie("img", `${up}`, {
           HttpOnly: true,

@@ -106,6 +106,9 @@ const getSignUp = async (req, res) => {
 	const title = 'Sign-Up'
 	const obj = await userObj(req, title);
 	return res.render(createPath('sign-up'), {
+		username: undefined,
+		password: undefined,
+		nickname: undefined,
 		...obj,
 		errorValidationMessange: false
 	});
@@ -115,6 +118,11 @@ const postSignUp = async (req, res) => {
 	const title = "Sign-Up";
 	const obj = await userObj(req, title);
 	try {
+		const {
+			username,
+			password,
+			nickname
+		} = req.body;
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			return res
@@ -122,13 +130,11 @@ const postSignUp = async (req, res) => {
 				.render(createPath("sign-up"), {
 					errorValidationMessange: errors.errors[0].msg,
 					...obj,
+					username,
+					password,
+					nickname,
 				});
 		}
-		const {
-			username,
-			password,
-			nickname
-		} = req.body;
 		const candidate = await User.findOne({
 			username
 		});
@@ -138,6 +144,9 @@ const postSignUp = async (req, res) => {
 				.render(createPath("sign-up"), {
 					errorValidationMessange: "Пользователь с таким именем уже существует",
 					...obj,
+					username,
+					password,
+					nickname,
 				});
 		}
 		const hashPassword = bcrypt.hashSync(password, 7);
