@@ -9,7 +9,7 @@ const userObj = async (req, title) => {
 			isAuth: req.isAuth,
 			username: user?.username,
 			nickname: user?.nickname,
-			userImg: user?.img || "https://kokojer.storage.yandexcloud.net/images/anonymous.jpg",
+			userImg: user?.img || "https://i.ibb.co/zR9nG57/anonimous.jpg",
 		};
 	} catch (error) {
 		return res.send('error');

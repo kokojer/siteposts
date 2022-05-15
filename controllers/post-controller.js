@@ -35,7 +35,7 @@ const getPost = async (req, res) => {
 				postTitle: post.title,
 				userUsername: username,
 				userNickname: nickname,
-				userPostImg: img || 'https://kokojer.storage.yandexcloud.net/images/anonymous.jpg',
+				userPostImg: img || 'https://i.ibb.co/zR9nG57/anonimous.jpg',
 			}
 
 			res.render(createPath('post'), { ...postObj, ...obj })
@@ -88,7 +88,7 @@ const getEditPost = async (req, res) => {
 				postTitle: post.title,
 				userUsername: username,
 				userNickname: nickname,
-				userPostImg: img || 'https://kokojer.storage.yandexcloud.net/images/anonymous.jpg',
+				userPostImg: img || 'https://i.ibb.co/zR9nG57/anonimous.jpg',
 			}
 			res.render(createPath('edit-post'), { ...postObj, ...obj })
 		})
@@ -129,7 +129,7 @@ const getPosts = async (req, res) => {
 					id: elem._doc._id,
 					username: username,
 					userNickname: nickname,
-					userImg: img || 'https://kokojer.storage.yandexcloud.net/images/anonymous.jpg',
+					userImg: img || 'https://i.ibb.co/zR9nG57/anonimous.jpg',
 				}
 			}))
 			res.render(createPath('posts'), { fullPostsInfo, ...obj })
