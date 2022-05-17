@@ -26,7 +26,7 @@ var s3 = new EasyYandexS3({
 const uploadImg = async (filename) => {
 	return await imgbbUploader("f6cefa0f4e1d57482a9da1f1993a7f6a", `./images/${filename}`)
 		.then((response) => {
-			console.log(response)
+			
 			return response.url
 		})
 		.catch((error) => console.error(error));

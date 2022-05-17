@@ -672,3 +672,42 @@ ul article h2 {
 		width: 100%;
 	}
 }
+.user-img{
+	position: relative;
+}
+.user-img::after{
+	content: "";
+	display: none;
+	z-index: 10;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	background-color: rgba(65, 63, 63, 0.466);
+}
+.f{
+	
+}
+.user-img::before {
+	content: "";
+	display: none;
+	z-index: 11142;
+	position: absolute;
+	top:50%;
+	left: 50%;
+	width: 100px;
+	height: 100px;
+	transform: translate(-50%, -50%);
+	background-image: url('./spinner.gif');
+	background-position: 50% 50%;
+	background-size: contain;
+}
+
+.user-img.loading::before,
+.user-img.loading::after {
+ 	display: block;
+}
+
